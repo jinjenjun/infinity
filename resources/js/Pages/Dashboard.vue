@@ -1,6 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
+import ElInfoButton from '@/Components/ElInfoButton.vue';
+import '@/../scss/main.scss';
 
 const { auth } = usePage().props;
 </script>
