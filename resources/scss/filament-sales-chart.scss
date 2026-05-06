@@ -1,55 +1,62 @@
 @use './element-plus.scss' as *;
 
-$aitehub-orange: #d55928 !important;
-$aitehub-brown: #4b2c25 !important;
-$aitehub-light-brown: #efe8e5 !important;
-$aitehub-gray: #cbbfbb !important;
-$aitehub-light-gray: #e4e4e7 !important;
-$aitehub-dark-gray: #bbbbbb !important;
+//***=====色彩管理=====***
+$infinity-orange: #d55928 !important;
+$infinity-light-brown: #efe8e5 !important;
+$infinity-brown: #4b2c25 !important;
+$infinity-white-gray: #eeeeee !important;
+$infinity-light-gray: #e4e4e7 !important;
+$infinity-gray: #cbbfbb !important;
+$infinity-dark-gray: #bbbbbb !important;
+$infinity-black-gray: #333333 !important;
+$infinity-red: #c80000 !important;
+$infinity-pink: #faf7f6 !important;
+$infinity-green: #317d00 !important;
+$infinity-blue: #098bc8 !important;
 
 #sales-chart-homepage {
   .bg-primary {
-    background-color: $aitehub-brown;
+    background-color: $infinity-brown;
   }
 
   .bg-secondary {
-    background-color: $aitehub-orange;
+    background-color: $infinity-blue;
   }
 
   .bg-light-brown {
-    background-color: $aitehub-light-brown;
+    background-color: $infinity-light-brown;
   }
 
   .text-primary {
-    color: $aitehub-brown;
+    color: $infinity-brown;
   }
 
   .text-secondary {
-    color: $aitehub-orange;
+    color: $infinity-blue;
   }
 
   .border-primary {
-    border-color: $aitehub-brown;
+    border-color: $infinity-brown;
   }
 
   .border-secondary {
-    border-color: $aitehub-orange;
+    border-color: $infinity-blue;
   }
 
   .border-gray {
-    border-color: $aitehub-gray;
+    border-color: $infinity-gray;
   }
 
   .border-light-gray {
-    border-color: $aitehub-light-gray;
+    border-color: $infinity-light-gray;
   }
 
   .border-dark-gray {
-    border-color: $aitehub-dark-gray;
+    border-color: $infinity-dark-gray;
   }
 
   .border-light-brown {
-    border-color: $aitehub-light-brown;
+    border-color: $infinity-light-brown;
   }
 }
 

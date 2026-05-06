@@ -1,13 +1,16 @@
 //***=====色彩管理=====***
-$aitehub-orange: #d55928 !important;
-$aitehub-brown: #4b2c25 !important;
-$aitehub-light-brown: #efe8e5 !important;
-$aitehub-dark-gray: #bbbbbb !important;
-$aitehub-gray: #cbbfbb !important;
-$aitehub-light-gray: #e4e4e7 !important;
-$aitehub-red: #c80000 !important;
-$aitehub-pink: #faf7f6 !important;
-$aitehub-green: #317d00 !important;
+$infinity-orange: #d55928 !important;
+$infinity-light-brown: #efe8e5 !important;
+$infinity-brown: #4b2c25 !important;
+$infinity-white-gray: #eeeeee !important;
+$infinity-light-gray: #e4e4e7 !important;
+$infinity-gray: #cbbfbb !important;
+$infinity-dark-gray: #bbbbbb !important;
+$infinity-black-gray: #333333 !important;
+$infinity-red: #c80000 !important;
+$infinity-pink: #faf7f6 !important;
+$infinity-green: #317d00 !important;
+$infinity-blue: #098bc8 !important;
 
 .tiptap * {
   font-family: 'Noto Serif TC', 'Microsoft JhengHei', sans-serif !important;
@@ -18,43 +21,43 @@ $aitehub-green: #317d00 !important;
 .tiptap h1 {
   font-size: 34px !important;
   font-weight: bold !important;
-  color: $aitehub-brown;
+  color: $infinity-brown;
 }
 
 .tiptap h2 {
   font-size: 32px !important;
   font-weight: bold !important;
-  color: $aitehub-brown;
+  color: $infinity-brown;
 }
 
 .tiptap h3 {
   font-size: 28px !important;
   font-weight: bold !important;
-  color: $aitehub-brown;
+  color: $infinity-brown;
 }
 
 .tiptap h4 {
   font-size: 24px !important;
   font-weight: bold !important;
-  color: $aitehub-brown;
+  color: $infinity-brown;
 }
 
 .tiptap h5 {
   font-size: 20px !important;
   font-weight: bold !important;
-  color: $aitehub-brown;
+  color: $infinity-brown;
 }
 
 .tiptap h6 {
   font-size: 18px !important;
   font-weight: bold !important;
-  color: $aitehub-brown;
+  color: $infinity-brown;
 }
 
 .tiptap p {
   font-size: 18px !important;
   font-weight: bold !important;
-  color: $aitehub-brown;
+  color: $infinity-brown;
 }
 
 .tiptap p:empty::before {

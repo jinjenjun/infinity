@@ -1,15 +1,21 @@
 //***=====色彩管理=====***
-$aitehub-brown: #4b2c25 !important;
-$aitehub-orange: #d55928 !important;
-$aitehub-light-brown: #efe8e5 !important;
-$aitehub-gray: #cbbfbb !important;
-$aitehub-light-gray: #e4e4e7 !important;
-$aitehub-pink: #faf7f6 !important;
+$infinity-orange: #d55928 !important;
+$infinity-light-brown: #efe8e5 !important;
+$infinity-brown: #4b2c25 !important;
+$infinity-white-gray: #eeeeee !important;
+$infinity-light-gray: #e4e4e7 !important;
+$infinity-gray: #cbbfbb !important;
+$infinity-dark-gray: #bbbbbb !important;
+$infinity-black-gray: #333333 !important;
+$infinity-red: #c80000 !important;
+$infinity-pink: #faf7f6 !important;
+$infinity-green: #317d00 !important;
+$infinity-blue: #098bc8 !important;
 
 .swiper-button-next,
 .swiper-button-prev {
-    color: $aitehub-orange;
+    color: $infinity-blue;
 }
 .swiper-pagination-bullet-active {
-    background-color: $aitehub-orange;
+    background-color: $infinity-blue;
 }
