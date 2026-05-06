@@ -7,7 +7,7 @@
         "dev": "vite",
         "lint": "eslint resources/js --ext .js,.vue --ignore-path .gitignore --fix",
         "dev:full": "concurrently \"php artisan serve --port=8085\" \"vite\"",
-        "start": "sudo start-dev && npm run dev:full"
+        "start": "sudo service nginx start && sudo service php8.4-fpm start && npm run dev:full"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^2.0.0",
