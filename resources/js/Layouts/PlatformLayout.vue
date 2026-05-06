@@ -8,13 +8,13 @@ import ElFooterBar from '@/Components/ElFooterBar.vue';
 const page = usePage();
 
 const mainMenu = [
-   { title: '項目一', route: 'admin', active: true },
-   { title: '項目二', route: 'admin', active: true },
-   { title: '項目三', route: 'admin', active: true }
+   { title: '購物商城', route: 'products', active: true, branch: ['products'] },
+   { title: '項目二', route: 'admin', active: true, branch: [] },
+   { title: '項目三', route: 'admin', active: true, branch: [] }
 ]
 
 const branchExtension = {
-  admin: [],
+  products: [],
 };
 
 const headerBarData = ref([]);
@@ -25,7 +25,7 @@ const generateHeaderBar = () => {
     if (!map[item.title]) {
       map[item.title] = [];
     }
-    map[item.title].push(item.slug);
+    map[item.title].push(item.route);
   });
   Object.entries(branchExtension).forEach(([key, extensions]) => {
     const menuItem = mainMenu?.find((item) => item.slug === key);

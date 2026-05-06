@@ -170,10 +170,10 @@ const logoItem =
   `
       <div class="flex grow justify-center">
         <div class="text-center">
-          <a class="mr-2 text-sm lg:text-xl cursor-pointer font-normal font-bold! flex justify-center items-center" href="/">
+          <a class="mr-2 mb-2 text-sm lg:text-xl cursor-pointer font-normal font-bold! flex justify-center items-center" href="/">
             <img src="` +
   logoSrc +
-  `" alt="" class="w-[80px] md:w-[90px] lg:w-[130px]" />
+  `" alt="" class="w-[80px] md:w-[90px] lg:w-[100px]" />
           </a>
         </div>
       </div>

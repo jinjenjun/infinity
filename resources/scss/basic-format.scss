@@ -10,6 +10,7 @@ $aitehub-pink: #faf7f6 !important;
 $aitehub-green: #317d00 !important;
 $infinity-light-gray: #eeeeee !important;
 $infinity-dark-gray: #333333 !important;
+$infinity-light-blue: #098bc8 !important;
 
 .color-primary {
   color: $aitehub-brown;
@@ -51,7 +52,7 @@ $infinity-dark-gray: #333333 !important;
   color: $infinity-dark-gray;
 }
 .text-secondary {
-  color: $aitehub-orange;
+  color: $infinity-light-blue;
 }
 .border-primary {
   border-color: $aitehub-brown;
