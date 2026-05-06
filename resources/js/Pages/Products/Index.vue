@@ -61,7 +61,7 @@ watch([search, selectedCategory], () => {
                     <Link
                         v-for="product in products.data"
                         :key="product.id"
-                        :href="route('products.show', product.id)"
+                        :href="route('products.show', product.uuid)"
                         class="overflow-hidden rounded-lg bg-white shadow-md transition hover:shadow-lg"
                     >
                         <!-- 圖片 -->

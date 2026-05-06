@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Str;
 
 #[Fillable(['name', 'email', 'password', 'phone', 'address', 'birthday', 'gender', 'age'])]
 #[Hidden(['password', 'remember_token'])]
@@ -31,5 +32,13 @@ class User extends Authenticatable implements FilamentUser
             'password'          => 'hashed',
             'gender'            => Gender::class,
         ];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->uuid = Str::uuid();
+        });
     }
 }

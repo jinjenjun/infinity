@@ -35,10 +35,13 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show(Product $product): Response
+    public function show(string $uuid): Response
     {
-        $product->load('category');
-        
+        $product = Product::with('category')
+            ->where('uuid', $uuid)
+            ->where('is_active', true)
+            ->firstOrFail();
+
         return Inertia::render('Products/Show', [
             'product' => $product,
         ]);

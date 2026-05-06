@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 #[Fillable(['product_category_id', 'name', 'description', 'price', 'discount', 'stock', 'image', 'is_active'])]
 class Product extends Model
@@ -26,5 +27,13 @@ class Product extends Model
     public function getHasDiscountAttribute(): bool
     {
         return $this->discount < 1.00;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->uuid = Str::uuid();
+        });
     }
 }
