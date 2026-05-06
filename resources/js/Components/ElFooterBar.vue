@@ -40,7 +40,7 @@ const backToTop = (e) => {
 
 const forwardInfoRoute = (data) => {
   vuexData.unlock.information.setTitle(store, data);
-  window.open('/information', '_blank', 'noopener,noreferrer');
+  window.open('/admin', '_blank', 'noopener,noreferrer');
 };
 
 onMounted(() => {
@@ -76,7 +76,7 @@ onUnmounted(() => {
       </div>
     </div>
     <div class="flex py-[30px]">
-      <span class="text-xs lg:text-sm">Copyright © Unlocking today. All Rights Reserved.</span>
+      <span class="text-xs lg:text-sm">本網站僅為個人學術研究使用</span>
     </div>
   </div>
   <div

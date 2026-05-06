@@ -8,6 +8,8 @@ $aitehub-light-gray: #e4e4e7 !important;
 $aitehub-red: #c80000 !important;
 $aitehub-pink: #faf7f6 !important;
 $aitehub-green: #317d00 !important;
+$infinity-light-gray: #eeeeee !important;
+$infinity-dark-gray: #333333 !important;
 
 .color-primary {
   color: $aitehub-brown;
@@ -46,7 +48,7 @@ $aitehub-green: #317d00 !important;
   background-color: $aitehub-light-brown;
 }
 .text-primary {
-  color: $aitehub-brown;
+  color: $infinity-dark-gray;
 }
 .text-secondary {
   color: $aitehub-orange;
@@ -84,7 +86,7 @@ body {
 }
 
 body:not(.fi-body) {
-  background-color: $aitehub-pink;
+  background-color: $infinity-light-gray;
 }
 
 body.epub-reader-body:not(.fi-body) {

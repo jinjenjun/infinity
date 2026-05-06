@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import PlatformLayout from '@/Layouts/PlatformLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import ElInfoButton from '@/Components/ElInfoButton.vue';
 import '@/../scss/main.scss';
@@ -10,22 +10,9 @@ const { auth } = usePage().props;
 <template>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Dashboard
-            </h2>
-        </template>
-
-        <div class="py-12">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <p>歡迎，{{ auth.user.name }}！</p>
-                        <p>你的角色：{{ auth.roles.join(', ') }}</p>
-                    </div>
-                </div>
-            </div>
+    <PlatformLayout>
+        <div class="text-card-title mt-5 px-5">
+          <p>歡迎加入，{{ auth.user.name }} (權限等級：{{ auth.roles.join(', ') }})</p>
         </div>
-    </AuthenticatedLayout>
+    </PlatformLayout>
 </template>

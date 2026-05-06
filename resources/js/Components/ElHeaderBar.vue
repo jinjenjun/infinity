@@ -1,15 +1,11 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
-import { Howl } from 'howler';
-import { useStore } from 'vuex';
-import { vuexData } from '@/../store';
 import '@/../scss/main.scss';
 import * as APIs from '@/APIs';
 import * as helpers from '@/Libs/helpers';
 import ElInfoButton from '@/Components/ElInfoButton.vue';
 
-const store = useStore();
 const loginStatus = ref('會員登入');
 const registerStatus = ref('註冊會員');
 const loginButtonStatus = ref({ disable: false });
@@ -19,94 +15,11 @@ let memberMenuStatus = false;
 let searchMenuStatus = false;
 
 const screenWidth = ref(window.innerWidth);
-
-const musicList = ref([
-  {
-    name: '歌曲1',
-    url: 'https://timelesspub-storage.s3-ap-northeast-1.amazonaws.com/music/bg_music_001.mp3',
-  },
-]);
-const currentTrackIndex = ref(0);
-const isPlaylistLooping = ref(false);
-const currentTrack = ref(musicList.value[currentTrackIndex.value]);
-let sound = null;
 const searchButtonName = ref('搜尋文章');
 const searchKeyword = ref('');
 
 const onInputSanitize = (event) => {
   searchKeyword.value = helpers.sanitizeInput(event.target.value);
-  vuexData.unlock.head.setHeadTitle(store, '');
-};
-
-const updateMusicStatus = () => {
-  vuexData.unlock.music.setMusicData(store, {
-    trackIndex: currentTrackIndex.value,
-    progress: sound.seek(),
-    isPlaying: sound.playing(),
-  });
-};
-
-const loadTrack = () => {
-  const track = musicList.value[currentTrackIndex.value];
-  currentTrack.value = track;
-  sound = new Howl({
-    src: [track.url],
-    autoplay: false,
-    loop: isPlaylistLooping.value,
-    html5: true,
-    onend: onTrackEnd,
-  });
-  sound.volume(1);
-};
-
-const onTrackEnd = () => {
-  if (isPlaylistLooping.value) {
-    return true;
-  }
-};
-
-const togglePlaylistLoop = () => {
-  isPlaylistLooping.value = !isPlaylistLooping.value;
-  if (isPlaylistLooping.value) {
-    loadTrack();
-    sound.play();
-    updateMusicStatus();
-  } else {
-    sound.stop();
-    updateMusicStatus();
-  }
-};
-
-let intervalId;
-
-// TODO: 儲存音樂播放狀態，有需要時再開啟
-const storeMusicStatus = () => {
-  const musicState = vuexData.unlock.music.getMusicData(store);
-
-  if (musicState?.trackIndex != null) {
-    currentTrackIndex.value = musicState.trackIndex;
-    loadTrack();
-    sound.once('load', () => {
-      sound.seek(musicState.progress || 0);
-
-      if (musicState.isPlaying) {
-        sound.play();
-      }
-    });
-    isPlaylistLooping.value = musicState.isPlaying;
-  } else {
-    loadTrack();
-  }
-
-  intervalId = setInterval(() => {
-    if (sound?.playing()) {
-      vuexData.unlock.music.setMusicData(store, {
-        trackIndex: currentTrackIndex.value,
-        progress: sound.seek(),
-        isPlaying: sound.playing(),
-      });
-    }
-  }, 1000);
 };
 
 const page = usePage();
@@ -124,24 +37,14 @@ const route = pathParts[1];
 
 const memberCenterList = [
   {
-    title: '會員中心',
-    action: () => helpers.forwardRoute('/member'),
+    title: '管理後臺',
+    action: () => helpers.forwardRoute('/admin'),
     dynamicText: null,
   },
   {
-    title: '我的課程',
-    action: () => helpers.forwardRoute('/member/courses'),
+    title: '個人資料',
+    action: () => helpers.forwardRoute('/profile'),
     dynamicText: null,
-  },
-  {
-    title: '我的書櫃',
-    action: () => helpers.forwardRoute('/member/bookshelf'),
-    dynamicText: null,
-  },
-  {
-    title: '背景音樂',
-    action: () => togglePlaylistLoop(),
-    dynamicText: () => (isPlaylistLooping.value ? '關閉' : '開啟'),
   },
 ];
 
@@ -192,13 +95,8 @@ const createOptionItem = () => {
     itemContainer.className = 'shrink-0 p-[10px] md:w-[100px] lg:w-[120px] text-center';
 
     const link = document.createElement('a');
-    const newsType = vuexData.unlock.news.getNewsData(store)?.type;
     const pathsToMatch = [route, currentPath];
-    if (route === 'news' && (newsType === 'article' || newsType === 'video')) {
-      pathsToMatch.push(
-        newsType === 'article' ? props.headerBarProp?.[3]?.route : props.headerBarProp?.[2]?.route,
-      );
-    }
+
     const isActiveRoute = pathsToMatch.some((path) => item.branch.includes(path));
 
     link.className = `block w-full overflow-hidden text-ellipsis whitespace-nowrap md:text-[18px] lg:text-2xl cursor-pointer ${
@@ -209,7 +107,7 @@ const createOptionItem = () => {
     link.href = `/${item.route}`;
     item.route === 'shop' ? (link.href = '/shop/leaderboard') : null;
 
-    const shouldDisable = !item.active && page.props.config.env !== 'local';
+    const shouldDisable = !item.active;
     if (shouldDisable) {
       link.classList.add('disable-execution');
       link.style.cursor = 'not-allowed';
@@ -266,7 +164,7 @@ const createOptionItem = () => {
 };
 
 const logoSrc =
-  page.props.img && page.props.img.logo ? page.props.img.logo : '/img/unlocking_logo.png';
+  page.props.img && page.props.img.logo ? page.props.img.logo : '/img/infinity_logo.png';
 
 const logoItem =
   `
@@ -448,13 +346,7 @@ const createSmallMenuOption = () => {
     itemContainer.className = 'p-[10px] w-[100px] text-center grow truncate break-all';
 
     const link = document.createElement('a');
-    const newsType = vuexData.unlock.news.getNewsData(store)?.type;
     const pathsToMatch = [route, currentPath];
-    if (route === 'news' && (newsType === 'article' || newsType === 'video')) {
-      pathsToMatch.push(
-        newsType === 'article' ? props.headerBarProp?.[3]?.route : props.headerBarProp?.[2]?.route,
-      );
-    }
     const isActiveRoute = pathsToMatch.some((path) => item.branch.includes(path));
 
     link.className = `text-[18px] cursor-pointer ${isActiveRoute ? 'font-bold text-secondary' : 'font-normal'}`;
@@ -462,7 +354,7 @@ const createSmallMenuOption = () => {
     link.href = `/${item.route}`;
     item.route === 'shop' ? (link.href = '/shop/leaderboard') : null;
 
-    const shouldDisable = !item.active && page.props.config.env !== 'local';
+    const shouldDisable = !item.active;
     if (shouldDisable) {
       link.classList.add('disable-execution');
       link.style.setProperty('cursor', 'not-allowed', 'important');
@@ -685,7 +577,6 @@ onMounted(() => {
   checkAuthStatus();
   checkLoginStatus();
   handleSearchButtonName();
-  // storeMusicStatus();
   document.addEventListener('click', closeMenuOnOutsideClick);
   window.addEventListener('resize', handleResize);
 });
@@ -693,14 +584,11 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('click', closeMenuOnOutsideClick);
   window.removeEventListener('resize', handleResize);
-  clearInterval(intervalId);
 });
 
 watch(
-  [props, currentTrackIndex, searchKeyword],
+  [props, searchKeyword],
   () => {
-    // TODO: 儲存音樂播放狀態，有需要時再開啟
-    // loadTrack();
     checkLoginStatus();
   },
   { immediate: true, deep: true },

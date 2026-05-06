@@ -31,6 +31,8 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
-        "element-plus": "^2.13.7"
+        "element-plus": "^2.13.7",
+        "remixicon": "^4.9.1",
+        "vuex": "^4.1.0"
     }
 }
