@@ -9,6 +9,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class ProductForm
 {
@@ -18,8 +19,20 @@ class ProductForm
             ->components([
                 Select::make('product_category_id')
                     ->label('商品分類')
-                    ->options(ProductCategory::all()->pluck('name', 'id'))
-                    ->required(),
+                    ->options(function () {
+                        return ProductCategory::whereNotNull('parent_id')
+                            ->when(
+                                Auth::user()->hasRole('admin'),
+                                fn ($q) => $q->where('admin_id', Auth::id())
+                            )
+                            ->with('parent')
+                            ->get()
+                            ->mapWithKeys(fn ($cat) => [
+                                $cat->id => $cat->parent->name . ' > ' . $cat->name
+                            ]);
+                    })
+                    ->required()
+                    ->searchable(),
                 TextInput::make('name')
                     ->label('商品名稱')
                     ->required(),

@@ -23,6 +23,15 @@ class UsersTable
                 TextColumn::make('roles.name')
                     ->label('角色')
                     ->badge(),
+                TextColumn::make('manager')
+                    ->label('管理者')
+                    ->getStateUsing(fn ($record) =>
+                        $record->hasAnyRole(['superadmin', 'admin']) ? '無需指派' : ($record->managedBy?->name ?? '未指派')
+                    )
+                    ->badge()
+                    ->color(fn ($state, $record) =>
+                        $record->hasAnyRole(['superadmin', 'admin']) ? 'info' : ($record->managedBy ? 'warning' : 'danger')
+                    ),
                 TextColumn::make('phone')
                     ->label('電話')
                     ->searchable(),
@@ -36,7 +45,12 @@ class UsersTable
                 TextColumn::make('gender')
                     ->label('性別')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => $state?->label())
+                    ->formatStateUsing(fn ($state) => match((int)$state) {
+                        0 => '女',
+                        1 => '男',
+                        2 => '其他',
+                        default => '未設定',
+                    })
                     ->sortable(),
                 TextColumn::make('age')
                     ->label('年齡')
@@ -44,13 +58,11 @@ class UsersTable
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('建立時間')
-                    ->dateTime()
+                    ->dateTime('Y/m/d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->recordActions([
                 EditAction::make(),
             ])

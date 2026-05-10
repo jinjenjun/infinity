@@ -73,10 +73,10 @@ const createOptionItem = () => {
   let windowWidth = window.innerWidth;
 
   // TODO: 桌機寬度時隱藏箭頭，日後如果需要箭頭可以從這裡調整
-  if (windowWidth > 1024) {
-    leftArrow.className = 'hidden';
-    rightArrow.className = 'hidden';
-  }
+  // if (windowWidth > 1024) {
+  //   leftArrow.className = 'hidden';
+  //   rightArrow.className = 'hidden';
+  // }
 
   const scrollContainer = document.createElement('div');
   scrollContainer.className =

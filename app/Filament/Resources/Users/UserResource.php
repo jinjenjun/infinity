@@ -40,7 +40,8 @@ class UserResource extends Resource
         $query = parent::getEloquentQuery();
 
         if (Auth::user()->hasRole('admin')) {
-            $query->whereHas('roles', fn ($q) => $q->where('name', 'user'));
+            $query->whereHas('roles', fn ($q) => $q->where('name', 'user'))
+                ->where('managed_by', Auth::id());
         }
 
         return $query;

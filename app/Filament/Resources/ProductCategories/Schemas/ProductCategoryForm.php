@@ -13,7 +13,7 @@ class ProductCategoryForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label('分類名稱')
+                    ->label('主類別名稱')
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(function (string $operation, $state, callable $set) {

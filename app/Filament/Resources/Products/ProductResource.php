@@ -13,6 +13,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
 class ProductResource extends Resource
@@ -24,6 +26,17 @@ class ProductResource extends Resource
     protected static UnitEnum|string|null $navigationGroup = '商品管理';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        if (Auth::user()->hasRole('admin')) {
+            $query->where('admin_id', Auth::id());
+        }
+
+        return $query;
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -43,9 +56,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListProducts::route('/'),
+            'index'  => ListProducts::route('/'),
             'create' => CreateProduct::route('/create'),
-            'edit' => EditProduct::route('/{record}/edit'),
+            'edit'   => EditProduct::route('/{record}/edit'),
         ];
     }
 }

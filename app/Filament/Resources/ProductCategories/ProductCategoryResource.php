@@ -13,17 +13,30 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
 class ProductCategoryResource extends Resource
 {
     protected static ?string $model = ProductCategory::class;
-    protected static ?string $modelLabel = '商品分類';
-    protected static ?string $pluralModelLabel = '商品分類管理';
-    protected static ?string $navigationLabel = '商品分類';
+    protected static ?string $modelLabel = '主類別';
+    protected static ?string $pluralModelLabel = '主類別管理';
+    protected static ?string $navigationLabel = '主類別管理';
     protected static UnitEnum|string|null $navigationGroup = '商品管理';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery()->whereNull('parent_id');
+
+        if (Auth::user()->hasRole('admin')) {
+            $query->where('admin_id', Auth::id());
+        }
+
+        return $query;
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -43,9 +56,9 @@ class ProductCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListProductCategories::route('/'),
+            'index'  => ListProductCategories::route('/'),
             'create' => CreateProductCategory::route('/create'),
-            'edit' => EditProductCategory::route('/{record}/edit'),
+            'edit'   => EditProductCategory::route('/{record}/edit'),
         ];
     }
 }

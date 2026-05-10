@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Users\Schemas;
 
 use App\Enums\Gender;
+use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -53,6 +54,15 @@ class UserForm
                     ->relationship('roles', 'name')
                     ->options(Role::all()->pluck('name', 'id'))
                     ->visible(fn () => Auth::user()->hasRole('superadmin')),
+                Select::make('managed_by')
+                    ->label('管理者歸屬')
+                    ->options(
+                        User::whereHas('roles', fn ($q) => $q->where('name', 'admin'))
+                            ->pluck('name', 'id')
+                    )
+                    ->searchable()
+                    ->nullable()
+                    ->visible(fn ($record) => Auth::user()->hasRole('superadmin') && $record?->hasRole('user')),
             ]);
     }
 }

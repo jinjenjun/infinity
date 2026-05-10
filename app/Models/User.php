@@ -2,43 +2,54 @@
 
 namespace App\Models;
 
-use App\Enums\Gender;
-use Database\Factories\UserFactory;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Str;
 
-#[Fillable(['name', 'email', 'password', 'phone', 'address', 'birthday', 'gender', 'age'])]
-#[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles;
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return $this->hasAnyRole(['superadmin', 'admin', 'user']);
-    }
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'phone',
+        'address',
+        'birthday',
+        'gender',
+        'age',
+        'managed_by',
+        'invite_code_id',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
-            'gender'            => Gender::class,
+            'birthday'          => 'date',
         ];
     }
 
-    protected static function boot()
+    public function managedBy()
     {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->uuid = Str::uuid();
-        });
+        return $this->belongsTo(User::class, 'managed_by');
+    }
+
+    public function managedUsers()
+    {
+        return $this->hasMany(User::class, 'managed_by');
+    }
+
+    public function inviteCode()
+    {
+        return $this->belongsTo(InviteCode::class, 'invite_code_id');
     }
 }

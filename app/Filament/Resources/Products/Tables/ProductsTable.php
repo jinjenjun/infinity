@@ -16,10 +16,17 @@ class ProductsTable
     {
         return $table
             ->columns([
-                TextColumn::make('category.name')
-                    ->label('商品分類')
+                TextColumn::make('category.parent.name')
+                    ->label('主類別')
                     ->sortable()
-                    ->searchable(),
+                    ->badge()
+                    ->color('info'),
+                TextColumn::make('category.name')
+                    ->label('子類別')
+                    ->sortable()
+                    ->searchable()
+                    ->badge()
+                    ->color('warning'),
                 TextColumn::make('name')
                     ->label('商品名稱')
                     ->searchable(),
@@ -46,12 +53,12 @@ class ProductsTable
                     ->boolean(),
                 TextColumn::make('created_at')
                     ->label('建立時間')
-                    ->dateTime()
+                    ->dateTime('Y/m/d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->label('更新時間')
-                    ->dateTime()
+                    ->dateTime('Y/m/d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

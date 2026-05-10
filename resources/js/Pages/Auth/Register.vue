@@ -12,10 +12,11 @@ const form = useForm({
     phone: '',
     address: '',
     birthday: '',
-    gender: '',  
-    age: '',     
+    gender: '',
+    age: '',
     password: '',
     password_confirmation: '',
+    invite_code: '',
 });
 
 const submit = () => {
@@ -27,7 +28,7 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head title="註冊" />
 
         <form @submit.prevent="submit">
             <!-- Name -->
@@ -160,13 +161,28 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
+            <!-- Invite Code -->
+            <div class="mt-4">
+                <InputLabel for="invite_code" value="邀請碼（必填）" />
+                <TextInput
+                    id="invite_code"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.invite_code"
+                    required
+                    placeholder="請輸入邀請碼，例如：ABCD-EFGH"
+                    style="text-transform: uppercase;"
+                />
+                <InputError class="mt-2" :message="form.errors.invite_code" />
+            </div>
+
             <!-- Submit -->
-            <div class="mt-4 flex items-center justify-end">
+            <div class="mt-6 flex items-center justify-end">
                 <Link
                     :href="route('login')"
                     class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                    Already registered?
+                    已有帳號？登入
                 </Link>
 
                 <PrimaryButton
@@ -174,7 +190,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Register
+                    註冊
                 </PrimaryButton>
             </div>
         </form>

@@ -15,21 +15,19 @@ class ProductCategoriesTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('分類名稱')
+                    ->label('主類別名稱')
                     ->searchable(),
                 TextColumn::make('slug')
                     ->label('網址代碼')
                     ->searchable(),
+                TextColumn::make('products_count')
+                    ->label('商品數')
+                    ->counts('products')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->label('建立時間')
-                    ->dateTime()
+                    ->dateTime('Y/m/d H:i')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->label('更新時間')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([])
             ->recordActions([
