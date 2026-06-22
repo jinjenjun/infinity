@@ -1,1 +1,1 @@
-export * as unlock from './unlock';
+export * as infinity from './infinity';

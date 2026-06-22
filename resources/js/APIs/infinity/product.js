@@ -1,10 +1,10 @@
 import { UNLOCKRequest, useErrorHandler } from '@/Libs/axios_vue.js';
 
-export const purchase = (data) =>
+export const getProductList = (data) =>
   useErrorHandler(
     UNLOCKRequest({
-      method: 'POST',
-      url: '/purchase',
-      data,
+      method: 'GET',
+      url: '/api/products',
+      params: data,
     }),
   );

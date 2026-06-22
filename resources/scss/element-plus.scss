@@ -407,11 +407,33 @@ $infinity-blue: #098bc8 !important;
     align-items: center;
     font-size: 18px;
   }
+
+   .el-select__placeholder {
+    font-size: 14px;
+    font-weight: bold;
+  }
 }
 
 @media screen and (min-width: 1024px) {
   .default-page .head-tabs .el-tabs__item {
     padding: 0 48px 0 48px;
+  }
+
+  
+  .custom-select-small {
+    width: 150px;
+
+    .el-select__wrapper,
+    .el-input__inner,
+    .el-input__suffix {
+      height: 45px;
+      font-size: 18px;
+    }
+
+    .el-select__placeholder {
+      font-size: 16px;
+      font-weight: bold;
+    }
   }
 }
 
@@ -428,7 +450,7 @@ $infinity-blue: #098bc8 !important;
   .default-page .el-pager .btn-quickprev:active,
   .default-page .el-pagination .btn-quicknext,
   .default-page .el-pagination .btn-quicknext:active,
-  .custom-page .el-collapse-item__header,
+  .custom-page .el-collapse-item__header
   {
     font-size: 14px;
   }
@@ -480,6 +502,11 @@ $infinity-blue: #098bc8 !important;
       height: 45px;
       font-size: 18px;
     }
+
+    .el-select__placeholder {
+      font-size: 16px;
+      font-weight: bold;
+    }
   }
 }
 
@@ -495,7 +522,7 @@ $infinity-blue: #098bc8 !important;
   .default-page .el-pager .btn-quickprev,
   .default-page .el-pager .btn-quickprev:active,
   .default-page .el-pagination .btn-quicknext,
-  .default-page .el-pagination .btn-quicknext:active,
+  .default-page .el-pagination .btn-quicknext:active
   {
     font-size: 12px;
   }
@@ -551,6 +578,7 @@ $infinity-blue: #098bc8 !important;
       height: 45px;
       font-size: 18px;
     }
+
   }
 }
 

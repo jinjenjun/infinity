@@ -48,6 +48,39 @@ class ProductController extends Controller
         ]);
     }
 
+    public function indexApi(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $user = auth()->user();
+        $adminId = $user->managed_by ?? ($user->hasRole('admin') ? $user->id : null);
+
+        $query = Product::with(['category.parent'])
+            ->where('is_active', true);
+
+        if ($adminId) {
+            $query->where('admin_id', $adminId);
+        }
+
+        if ($request->filled('category')) {
+            $query->whereHas('category', fn ($q) => $q->where('slug', $request->category));
+        }
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $products = $query->latest()->paginate(12);
+
+        $categories = ProductCategory::whereNotNull('parent_id')
+            ->when($adminId, fn ($q) => $q->where('admin_id', $adminId))
+            ->with('parent')
+            ->get();
+
+        return response()->json([
+            'products'   => $products,
+            'categories' => $categories,
+        ]);
+    }
+
     public function show(string $uuid): Response
     {
         $user = auth()->user();
