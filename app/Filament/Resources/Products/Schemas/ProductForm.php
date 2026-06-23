@@ -59,7 +59,12 @@ class ProductForm
                     ->default(0),
                 FileUpload::make('image')
                     ->label('商品圖片')
+                    ->disk('public')
                     ->image()
+                    ->imageEditor()
+                    ->imageAspectRatio('4:3')
+                    ->automaticallyOpenImageEditorForAspectRatio()
+                    ->imageEditorAspectRatioOptions([])
                     ->directory('products'),
                 Toggle::make('is_active')
                     ->label('上架')

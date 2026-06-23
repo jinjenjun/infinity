@@ -114,7 +114,7 @@ onMounted(() => {
           />
         </div>
         <ElInfoButton
-          class="h-[45px] w-full md:w-[150px] lg:w-[240px]"
+          class="h-[45px] w-[315px] md:w-[150px] lg:w-[240px]"
           @click="navigate()"
         >
           搜尋

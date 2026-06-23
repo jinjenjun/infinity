@@ -33,7 +33,7 @@ class ProductController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $products = $query->latest()->paginate(12);
+        $products = $query->oldest()->paginate(12);
 
         // 只取該 admin 的分類
         $categories = ProductCategory::whereNotNull('parent_id')
@@ -68,7 +68,7 @@ class ProductController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $products = $query->latest()->paginate(12);
+        $products = $query->oldest()->paginate(12);
 
         $categories = ProductCategory::whereNotNull('parent_id')
             ->when($adminId, fn ($q) => $q->where('admin_id', $adminId))
