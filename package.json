@@ -31,6 +31,7 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "chart.js": "^4.5.1",
         "element-plus": "^2.13.7",
         "remixicon": "^4.9.1",
         "validator": "^13.15.35",
