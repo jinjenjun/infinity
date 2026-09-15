@@ -48,8 +48,8 @@ const emitFooterBarData = (data) => data;
 </script>
 
 <template>
-  <div class="text-primary grid grid-cols-12 px-[5vw] md:px-[12vw] lg:px-[9vw]">
-    <div class="blur-transition z-10 col-span-12">
+  <div class="blur-transition text-primary grid grid-cols-12 px-[5vw] md:px-[12vw] lg:px-[9vw]">
+    <div class="z-10 col-span-12">
       <ElHeaderBar
           v-if="headerBarData.length"
           :header-bar-prop="headerBarData"
