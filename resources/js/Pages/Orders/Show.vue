@@ -62,7 +62,7 @@ const downloadPdf = () => {
                             </p>
                         </div>
                         <div>
-                            <p class="color-dark-gray mb-1">訂單合計</p>
+                            <p class="color-dark-gray mb-1">{{ order.is_partial ? '我的商品小計' : '訂單合計' }}</p>
                             <p class="text-xl font-bold color-primary">
                                 NT$ {{ Number(order.total).toLocaleString() }}
                             </p>
@@ -128,7 +128,7 @@ const downloadPdf = () => {
                     </div>
 
                     <div class="flex justify-between items-center pt-4 font-bold color-primary">
-                        <span>合計</span>
+                        <span>{{ order.is_partial ? '小計' : '合計' }}</span>
                         <span>NT$ {{ Number(order.total).toLocaleString() }}</span>
                     </div>
                 </div>

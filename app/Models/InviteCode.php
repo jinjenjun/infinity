@@ -24,13 +24,13 @@ class InviteCode extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'invite_code_id');
+        return $this->belongsToMany(User::class, 'admin_user', 'invite_code_id', 'user_id');
     }
 
     public static function generate(): string
     {
         do {
-            $code = strtoupper(Str::random(4) . '-' . Str::random(4));
+            $code = strtoupper(Str::random(4).'-'.Str::random(4));
         } while (self::where('code', $code)->exists());
 
         return $code;
@@ -38,7 +38,10 @@ class InviteCode extends Model
 
     public function isValid(): bool
     {
-        if ($this->expires_at && $this->expires_at->isPast()) return false;
+        if ($this->expires_at && $this->expires_at->isPast()) {
+            return false;
+        }
+
         return true;
     }
 }

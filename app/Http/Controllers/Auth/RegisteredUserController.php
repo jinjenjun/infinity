@@ -63,9 +63,11 @@ class RegisteredUserController extends Controller
             'birthday' => $request->birthday,
             'gender' => $request->gender,
             'age' => $request->age,
-            'managed_by' => $inviteCode?->admin_id,
-            'invite_code_id' => $inviteCode?->id,
         ]);
+
+        if ($inviteCode) {
+            $user->admins()->attach($inviteCode->admin_id, ['invite_code_id' => $inviteCode->id]);
+        }
 
         $user->assignRole('user');
 

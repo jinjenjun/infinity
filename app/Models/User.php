@@ -9,7 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, HasRoles, Notifiable;
 
     protected $fillable = [
         'name',
@@ -20,8 +20,6 @@ class User extends Authenticatable
         'birthday',
         'gender',
         'age',
-        'managed_by',
-        'invite_code_id',
     ];
 
     protected $hidden = [
@@ -33,23 +31,24 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-            'birthday'          => 'date',
+            'password' => 'hashed',
+            'birthday' => 'date',
         ];
     }
 
-    public function managedBy()
+    // 我所屬的 admin（會員身分）
+    public function admins()
     {
-        return $this->belongsTo(User::class, 'managed_by');
+        return $this->belongsToMany(User::class, 'admin_user', 'user_id', 'admin_id')
+            ->withPivot('invite_code_id')
+            ->withTimestamps();
     }
 
-    public function managedUsers()
+    // 我管理的會員
+    public function members()
     {
-        return $this->hasMany(User::class, 'managed_by');
-    }
-
-    public function inviteCode()
-    {
-        return $this->belongsTo(InviteCode::class, 'invite_code_id');
+        return $this->belongsToMany(User::class, 'admin_user', 'admin_id', 'user_id')
+            ->withPivot('invite_code_id')
+            ->withTimestamps();
     }
 }

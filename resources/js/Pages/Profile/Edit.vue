@@ -1,6 +1,7 @@
 <script setup>
 import PlatformLayout from '@/Layouts/PlatformLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
+import JoinInviteCodeForm from './Partials/JoinInviteCodeForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head } from '@inertiajs/vue3';
@@ -11,6 +12,10 @@ defineProps({
     },
     status: {
         type: String,
+    },
+    admins: {
+        type: Array,
+        default: () => [],
     },
 });
 </script>
@@ -37,6 +42,12 @@ defineProps({
                         :status="status"
                         class="max-w-xl"
                     />
+                </div>
+
+                <div
+                    class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
+                >
+                    <JoinInviteCodeForm :admins="admins" class="max-w-xl" />
                 </div>
 
                 <div

@@ -62,7 +62,7 @@ const statusMap = {
                                 {{ statusMap[order.status]?.label }}
                             </span>
                             <p class="font-bold color-primary">
-                                NT$ {{ Number(order.total).toLocaleString() }}
+                                <span v-if="order.is_partial" class="mr-1 text-xs font-normal color-dark-gray">我的小計</span>NT$ {{ Number(order.total).toLocaleString() }}
                             </p>
                             <Link
                                 :href="route('orders.show', order.id)"

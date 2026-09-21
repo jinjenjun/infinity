@@ -14,12 +14,15 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
     protected static ?string $modelLabel = '用戶';
+
     protected static ?string $pluralModelLabel = '用戶管理';
+
     protected static ?string $navigationLabel = '用戶管理';
 
     protected static ?string $model = User::class;
@@ -41,14 +44,14 @@ class UserResource extends Resource
 
         if (Auth::user()->hasRole('admin')) {
             $query->whereHas('roles', fn ($q) => $q->where('name', 'user'))
-                ->where('managed_by', Auth::id());
+                ->whereHas('admins', fn ($q) => $q->where('users.id', Auth::id()));
         }
 
         return $query;
     }
 
     // 控制誰可以編輯
-    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    public static function canEdit(Model $record): bool
     {
         $authUser = Auth::user();
 
@@ -64,7 +67,7 @@ class UserResource extends Resource
     }
 
     // 控制誰可以刪除
-    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    public static function canDelete(Model $record): bool
     {
         $authUser = Auth::user();
 

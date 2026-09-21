@@ -24,13 +24,15 @@ class UsersTable
                     ->label('角色')
                     ->badge(),
                 TextColumn::make('manager')
-                    ->label('管理者')
-                    ->getStateUsing(fn ($record) =>
-                        $record->hasAnyRole(['superadmin', 'admin']) ? '無需指派' : ($record->managedBy?->name ?? '未指派')
+                    ->label('所屬 admin')
+                    ->getStateUsing(fn ($record) => $record->hasAnyRole(['superadmin', 'admin'])
+                        ? '無需指派'
+                        : ($record->admins->isEmpty() ? '未指派' : $record->admins->pluck('name')->all())
                     )
                     ->badge()
-                    ->color(fn ($state, $record) =>
-                        $record->hasAnyRole(['superadmin', 'admin']) ? 'info' : ($record->managedBy ? 'warning' : 'danger')
+                    ->color(fn ($state, $record) => $record->hasAnyRole(['superadmin', 'admin'])
+                        ? 'info'
+                        : ($record->admins->isEmpty() ? 'danger' : 'warning')
                     ),
                 TextColumn::make('phone')
                     ->label('電話')
@@ -45,7 +47,7 @@ class UsersTable
                 TextColumn::make('gender')
                     ->label('性別')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => match((int)$state) {
+                    ->formatStateUsing(fn ($state) => match ((int) $state) {
                         0 => '女',
                         1 => '男',
                         2 => '其他',

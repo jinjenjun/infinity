@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -18,12 +16,12 @@ class OrderController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         } elseif ($authUser->hasRole('admin')) {
-            $managedUserIds = User::where('managed_by', $authUser->id)->pluck('id');
-            $managedUserIds->push($authUser->id);
-            $orders = Order::with(['user', 'items'])
-                ->whereIn('user_id', $managedUserIds)
+            $orders = Order::with(['user', 'items.product'])
+                ->where(fn ($q) => $q->where('user_id', $authUser->id)
+                    ->orWhereHas('items.product', fn ($p) => $p->where('admin_id', $authUser->id)))
                 ->orderBy('created_at', 'desc')
-                ->get();
+                ->get()
+                ->map(fn (Order $order) => $this->scopeToSeller($order, $authUser->id));
         } else {
             $orders = Order::with(['items'])
                 ->where('user_id', $authUser->id)
@@ -32,8 +30,8 @@ class OrderController extends Controller
         }
 
         return Inertia::render('Orders/Index', [
-            'orders'       => $orders,
-            'isAdmin'      => $authUser->hasAnyRole(['superadmin', 'admin']),
+            'orders' => $orders,
+            'isAdmin' => $authUser->hasAnyRole(['superadmin', 'admin']),
             'isSuperAdmin' => $authUser->hasRole('superadmin'),
         ]);
     }
@@ -45,9 +43,9 @@ class OrderController extends Controller
         if ($authUser->hasRole('superadmin')) {
             // 可以看全部
         } elseif ($authUser->hasRole('admin')) {
-            $managedUserIds = User::where('managed_by', $authUser->id)->pluck('id');
-            $managedUserIds->push($authUser->id);
-            if (!$managedUserIds->contains($order->user_id)) {
+            $isBuyer = $order->user_id === $authUser->id;
+            $isSeller = $order->items()->whereHas('product', fn ($p) => $p->where('admin_id', $authUser->id))->exists();
+            if (! $isBuyer && ! $isSeller) {
                 abort(403);
             }
         } else {
@@ -56,12 +54,36 @@ class OrderController extends Controller
             }
         }
 
-        $order->load(['items', 'user']);
+        $order->load(['items.product', 'user']);
+
+        if ($authUser->hasRole('admin')) {
+            $order = $this->scopeToSeller($order, $authUser->id);
+        }
 
         return Inertia::render('Orders/Show', [
-            'order'        => $order,
-            'isAdmin'      => $authUser->hasAnyRole(['superadmin', 'admin']),
+            'order' => $order,
+            'isAdmin' => $authUser->hasAnyRole(['superadmin', 'admin']),
             'isSuperAdmin' => $authUser->hasRole('superadmin'),
         ]);
+    }
+
+    // 賣家視角：只保留自己的商品明細，total 換成這部分的小計；買家本人看全部
+    private function scopeToSeller(Order $order, int $adminId): Order
+    {
+        if ($order->user_id === $adminId) {
+            return $order;
+        }
+
+        $items = $order->items
+            ->filter(fn ($item) => $item->product?->admin_id === $adminId)
+            ->values();
+
+        $items->each->unsetRelation('product');
+
+        $order->setRelation('items', $items);
+        $order->total = $items->sum(fn ($item) => $item->price * $item->quantity);
+        $order->is_partial = true;
+
+        return $order;
     }
 }

@@ -15,12 +15,10 @@ trait HasVisibility
             if ($viewer) {
                 $q->orWhere('admin_id', $viewer->id);
 
-                if ($viewer->managed_by) {
-                    $q->orWhere(function (Builder $q2) use ($viewer) {
-                        $q2->where('visibility', 'member')
-                            ->where('admin_id', $viewer->managed_by);
-                    });
-                }
+                $q->orWhere(function (Builder $q2) use ($viewer) {
+                    $q2->where('visibility', 'member')
+                        ->whereIn('admin_id', $viewer->admins()->select('users.id'));
+                });
             }
         });
     }
