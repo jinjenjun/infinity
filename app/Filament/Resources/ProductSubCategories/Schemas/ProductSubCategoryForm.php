@@ -40,6 +40,15 @@ class ProductSubCategoryForm
                     ->label('網址代碼')
                     ->required()
                     ->unique(ignoreRecord: true),
+                Select::make('visibility')
+                    ->label('可見度')
+                    ->options([
+                        'public' => '公開（所有人）',
+                        'member' => '會員專屬（我的邀請會員）',
+                        'private' => '私人（僅自己看得到）',
+                    ])
+                    ->default('public')
+                    ->required(),
             ]);
     }
 }

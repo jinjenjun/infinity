@@ -29,6 +29,21 @@ class ProductSubCategoriesTable
                     ->label('商品數')
                     ->counts('products')
                     ->sortable(),
+                TextColumn::make('visibility')
+                    ->label('可見度')
+                    ->badge()
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'public' => '公開',
+                        'member' => '會員專屬',
+                        'private' => '私人',
+                        default => $state,
+                    })
+                    ->color(fn ($state) => match ($state) {
+                        'public' => 'success',
+                        'member' => 'warning',
+                        'private' => 'gray',
+                        default => 'gray',
+                    }),
                 TextColumn::make('created_at')
                     ->label('建立時間')
                     ->dateTime('Y/m/d H:i')

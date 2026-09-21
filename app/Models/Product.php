@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasVisibility;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, HasVisibility;
 
     protected $fillable = [
         'product_category_id',
@@ -20,6 +21,7 @@ class Product extends Model
         'stock',
         'image',
         'is_active',
+        'visibility',
     ];
 
     protected $appends = ['discounted_price', 'has_discount'];

@@ -163,13 +163,12 @@ const submit = () => {
 
             <!-- Invite Code -->
             <div class="mt-4">
-                <InputLabel for="invite_code" value="邀請碼（必填）" />
+                <InputLabel for="invite_code" value="邀請碼（選填，填寫可享會員專屬商品）" />
                 <TextInput
                     id="invite_code"
                     type="text"
                     class="mt-1 block w-full"
                     v-model="form.invite_code"
-                    required
                     placeholder="請輸入邀請碼，例如：ABCD-EFGH"
                     style="text-transform: uppercase;"
                 />

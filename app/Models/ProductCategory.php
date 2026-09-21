@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasVisibility;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class ProductCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, HasVisibility;
 
-    protected $fillable = ['name', 'slug', 'admin_id', 'parent_id'];
+    protected $fillable = ['name', 'slug', 'admin_id', 'parent_id', 'visibility'];
 
     public function products()
     {

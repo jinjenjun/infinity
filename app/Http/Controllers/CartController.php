@@ -27,10 +27,14 @@ class CartController extends Controller
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity'   => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:1',
         ]);
 
-        $product = Product::findOrFail($request->product_id);
+        $product = Product::visibleTo(auth()->user())->find($request->product_id);
+
+        if (! $product) {
+            return back()->withErrors(['product_id' => '商品不存在']);
+        }
 
         if ($product->stock < $request->quantity) {
             return back()->withErrors(['quantity' => '庫存不足']);
@@ -45,7 +49,7 @@ class CartController extends Controller
         } else {
             $cart->items()->create([
                 'product_id' => $product->id,
-                'quantity'   => $request->quantity,
+                'quantity' => $request->quantity,
                 'price' => $product->discount ? $product->price * $product->discount : $product->price,
             ]);
         }

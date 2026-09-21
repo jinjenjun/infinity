@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])
     ->middleware(['auth'])
@@ -18,10 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/products/{uuid}', [ProductController::class, 'show'])->name('products.show');
-});
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{uuid}', [ProductController::class, 'show'])->name('products.show');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
