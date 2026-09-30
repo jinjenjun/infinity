@@ -28,6 +28,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandLogo(asset('img/infinity_logo.png'))
+            ->brandLogoHeight('3rem')
             ->sidebarWidth('280px')
             ->maxContentWidth('full')
             ->colors([
