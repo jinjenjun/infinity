@@ -1,11 +1,9 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { Chart } from 'chart.js/auto';
-import '@/../scss/main.scss';
 import * as helpers from '@/Libs/helpers.js';
 import * as date from '@/Libs/date.js';
 import { chartPalette } from '@/Libs/chartPalette';
-import ElInfoButton from '@/Components/ElInfoButton.vue';
 
 const salesTrend = ref(null);
 const visitor = ref(null);
@@ -461,9 +459,12 @@ watch(
           type="text"
         />
         <div :class="{ 'pointer-events-none opacity-50': !searchKeyword }">
-          <ElInfoButton class="text-card-description w-[100px] whitespace-nowrap px-2 py-4" @click="searchBook">
+          <button
+            class="text-card-description flex w-[100px] cursor-pointer items-center justify-center whitespace-nowrap rounded bg-secondary px-2 py-4 font-bold text-white active:brightness-110"
+            @click="searchBook"
+          >
             <p class="text-[18px] font-bold">搜尋</p>
-          </ElInfoButton>
+          </button>
         </div>
       </div>
     </div>

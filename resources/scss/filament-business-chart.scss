@@ -1,0 +1,13 @@
+@use 'sass:meta';
+
+// 巢狀後的 @import 會失效，字體需在最外層載入
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
+
+// 商業圖表嵌在 Filament 後台內，main.scss 的全域規則（如 input:focus、html/body）會影響後台本身的元件，
+// 因此只套用在圖表容器內。下拉選單的選項清單會被 Element Plus 渲染到 <body> 底下，需另外用 popper-class 指定
+#business-chart-app,
+.sales-chart-select-popper {
+  font-family: 'Noto Serif TC', 'Microsoft JhengHei', sans-serif;
+
+  @include meta.load-css('./main.scss');
+}

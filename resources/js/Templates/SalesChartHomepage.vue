@@ -1,6 +1,5 @@
 <script setup>
 import { defineAsyncComponent, onMounted, ref } from 'vue';
-import '@/../scss/main.scss';
 
 const ReaderOverview = defineAsyncComponent(() => import('@/Templates/ReaderOverview.vue'));
 const SalesAnalysis = defineAsyncComponent(() => import('@/Templates/SalesAnalysis.vue'));

@@ -1,7 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { Chart } from 'chart.js/auto';
-import '@/../scss/main.scss';
 import * as date from '@/Libs/date.js';
 import { chartPalette } from '@/Libs/chartPalette';
 

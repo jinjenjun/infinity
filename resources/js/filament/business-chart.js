@@ -1,4 +1,5 @@
 import '../../css/filament-business-chart.css';
+import '../../scss/filament-business-chart.scss';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import { createApp } from 'vue';
